@@ -23,6 +23,49 @@ const mainNavItems: NavItem[] = [
         href: dashboard(),
         icon: LayoutGrid,
     },
+    {
+        title: 'About Me',
+        href: '/abouts',
+        icon: LayoutGrid,
+    },
+    {
+        title: 'Services',
+        href: '/services',
+        icon: LayoutGrid,
+    },
+    {
+        title: 'Skills',
+        href: '/skills',
+        icon: LayoutGrid,
+    },
+    {
+        title: 'Educations',
+        href: '/educations',
+        icon: LayoutGrid,
+    },
+    {
+        title: 'Experiences',
+        href: '/experiences',
+        icon: LayoutGrid,
+    },{
+        title: 'Projects',
+        href: '/projects',
+        icon: LayoutGrid,
+    },{
+        title: 'Testimonials',
+        href: '/testimonials',
+        icon: LayoutGrid,
+    },
+    {
+        title: 'Messages',
+        href: '/messages',
+        icon: LayoutGrid,
+    },
+    {
+        title: 'Users',
+        href: '/users',
+        icon: LayoutGrid,
+    },
 ];
 
 const footerNavItems: NavItem[] = [
