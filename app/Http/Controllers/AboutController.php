@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\About;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -12,7 +13,11 @@ class AboutController extends Controller
      */
     public function index()
     {
-        return Inertia::render('Abouts/Index');
+        $about = About::first();
+
+        return Inertia::render('Abouts/Index', [
+            'about' => $about,
+        ]);
     }
 
     /**
@@ -28,7 +33,35 @@ class AboutController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'name' => 'nullable|string|max:255',
+            'email' => 'nullable|email|max:255',
+            'phone' => 'nullable|string|max:255',
+            'address' => 'nullable|string|max:255',
+            'description' => 'nullable|string',
+            'summary' => 'nullable|string',
+            'tagline' => 'nullable|string',
+            'home_image' => 'nullable|image|max:2048',
+            'banner_image' => 'nullable|image|max:2048',
+            'cv' => 'nullable|mimes:pdf|max:5120',
+        ]);
+
+        // Handle file uploads
+        if ($request->hasFile('home_image')) {
+            $validated['home_image'] = $request->file('home_image')->store('images/about', 'public');
+        }
+
+        if ($request->hasFile('banner_image')) {
+            $validated['banner_image'] = $request->file('banner_image')->store('images/about', 'public');
+        }
+
+        if ($request->hasFile('cv')) {
+            $validated['cv'] = $request->file('cv')->store('cv', 'public');
+        }
+
+        About::create($validated);
+
+        return redirect()->route('abouts.index')->with('success', 'About information created successfully.');
     }
 
     /**
@@ -52,7 +85,37 @@ class AboutController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $about = About::findOrFail($id);
+
+        $validated = $request->validate([
+            'name' => 'nullable|string|max:255',
+            'email' => 'nullable|email|max:255',
+            'phone' => 'nullable|string|max:255',
+            'address' => 'nullable|string|max:255',
+            'description' => 'nullable|string',
+            'summary' => 'nullable|string',
+            'tagline' => 'nullable|string',
+            'home_image' => 'nullable|image|max:2048',
+            'banner_image' => 'nullable|image|max:2048',
+            'cv' => 'nullable|mimes:pdf|max:5120',
+        ]);
+
+        // Handle file uploads
+        if ($request->hasFile('home_image')) {
+            $validated['home_image'] = $request->file('home_image')->store('images/about', 'public');
+        }
+
+        if ($request->hasFile('banner_image')) {
+            $validated['banner_image'] = $request->file('banner_image')->store('images/about', 'public');
+        }
+
+        if ($request->hasFile('cv')) {
+            $validated['cv'] = $request->file('cv')->store('cv', 'public');
+        }
+
+        $about->update($validated);
+
+        return redirect()->route('abouts.index')->with('success', 'About information updated successfully.');
     }
 
     /**
