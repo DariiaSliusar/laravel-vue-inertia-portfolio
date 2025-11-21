@@ -105,7 +105,6 @@ const updateChanges = () => {
 
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="flex h-full flex-1 flex-col gap-4 p-4">
-            <!-- Titlebar -->
             <div class="flex items-center justify-between">
                 <h1 class="text-2xl font-bold">About Me</h1>
                 <Button @click="updateChanges" :disabled="form.processing">
