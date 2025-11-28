@@ -21,6 +21,15 @@ class DatabaseSeeder extends Seeder
 //        ]);
         $this->call([
             AboutSeeder::class,
+            MediaSeeder::class,
+            ServiceSeeder::class,
+            SkillSeeder::class,
+            EducationSeeder::class,
+            ExperienceSeeder::class,
+            ProjectSeeder::class,
+            TestimonialSeeder::class,
+            MessageSeeder::class,
+            UserSeeder::class,
         ]);
     }
 }

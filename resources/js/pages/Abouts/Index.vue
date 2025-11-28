@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem } from '@/types';
-import { Head, useForm } from '@inertiajs/vue3';
+import { Head, Link, useForm } from '@inertiajs/vue3';
 import { Card, CardContent } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
@@ -52,8 +52,12 @@ const form = useForm({
     cv: null as File | null,
 });
 
-const homeImagePreview = ref<string>(props.about?.home_image ? `/storage/${props.about.home_image}` : '');
-const aboutImagePreview = ref<string>(props.about?.banner_image ? `/storage/${props.about.banner_image}` : '');
+const homeImagePreview = ref<string>(
+    props.about?.home_image ? `/storage/${props.about.home_image}` : '',
+);
+const aboutImagePreview = ref<string>(
+    props.about?.banner_image ? `/storage/${props.about.banner_image}` : '',
+);
 
 const handleHomeImageChange = (event: Event) => {
     const target = event.target as HTMLInputElement;
@@ -107,9 +111,10 @@ const updateChanges = () => {
         <div class="flex h-full flex-1 flex-col gap-4 p-4">
             <div class="flex items-center justify-between">
                 <h1 class="text-2xl font-bold">About Me</h1>
-                <Button @click="updateChanges" :disabled="form.processing">
-                    {{ form.processing ? 'Saving...' : 'Update Changes' }}
-                </Button>
+                                <Button @click="updateChanges" :disabled="form.processing">
+                                    {{ form.processing ? 'Saving...' : 'Update Changes' }}
+                                </Button>
+<!--                <Link href="/abouts/update">Update Changes</Link>-->
             </div>
 
             <!-- Main Content Grid -->
@@ -125,9 +130,16 @@ const updateChanges = () => {
                                         id="fullName"
                                         v-model="form.name"
                                         type="text"
-                                        :class="{ 'border-red-500': form.errors.name }"
+                                        :class="{
+                                            'border-red-500': form.errors.name,
+                                        }"
                                     />
-                                    <p v-if="form.errors.name" class="text-sm text-red-500">{{ form.errors.name }}</p>
+                                    <p
+                                        v-if="form.errors.name"
+                                        class="text-sm text-red-500"
+                                    >
+                                        {{ form.errors.name }}
+                                    </p>
                                 </div>
 
                                 <div class="space-y-2">
@@ -136,9 +148,16 @@ const updateChanges = () => {
                                         id="email"
                                         v-model="form.email"
                                         type="email"
-                                        :class="{ 'border-red-500': form.errors.email }"
+                                        :class="{
+                                            'border-red-500': form.errors.email,
+                                        }"
                                     />
-                                    <p v-if="form.errors.email" class="text-sm text-red-500">{{ form.errors.email }}</p>
+                                    <p
+                                        v-if="form.errors.email"
+                                        class="text-sm text-red-500"
+                                    >
+                                        {{ form.errors.email }}
+                                    </p>
                                 </div>
 
                                 <div class="space-y-2">
@@ -147,9 +166,16 @@ const updateChanges = () => {
                                         id="phone"
                                         v-model="form.phone"
                                         type="text"
-                                        :class="{ 'border-red-500': form.errors.phone }"
+                                        :class="{
+                                            'border-red-500': form.errors.phone,
+                                        }"
                                     />
-                                    <p v-if="form.errors.phone" class="text-sm text-red-500">{{ form.errors.phone }}</p>
+                                    <p
+                                        v-if="form.errors.phone"
+                                        class="text-sm text-red-500"
+                                    >
+                                        {{ form.errors.phone }}
+                                    </p>
                                 </div>
 
                                 <div class="space-y-2">
@@ -158,9 +184,17 @@ const updateChanges = () => {
                                         id="address"
                                         v-model="form.address"
                                         type="text"
-                                        :class="{ 'border-red-500': form.errors.address }"
+                                        :class="{
+                                            'border-red-500':
+                                                form.errors.address,
+                                        }"
                                     />
-                                    <p v-if="form.errors.address" class="text-sm text-red-500">{{ form.errors.address }}</p>
+                                    <p
+                                        v-if="form.errors.address"
+                                        class="text-sm text-red-500"
+                                    >
+                                        {{ form.errors.address }}
+                                    </p>
                                 </div>
 
                                 <div class="space-y-2">
@@ -169,9 +203,17 @@ const updateChanges = () => {
                                         id="description"
                                         v-model="form.description"
                                         rows="3"
-                                        :class="{ 'border-red-500': form.errors.description }"
+                                        :class="{
+                                            'border-red-500':
+                                                form.errors.description,
+                                        }"
                                     />
-                                    <p v-if="form.errors.description" class="text-sm text-red-500">{{ form.errors.description }}</p>
+                                    <p
+                                        v-if="form.errors.description"
+                                        class="text-sm text-red-500"
+                                    >
+                                        {{ form.errors.description }}
+                                    </p>
                                 </div>
 
                                 <div class="space-y-2">
@@ -180,9 +222,17 @@ const updateChanges = () => {
                                         id="summary"
                                         v-model="form.summary"
                                         rows="2"
-                                        :class="{ 'border-red-500': form.errors.summary }"
+                                        :class="{
+                                            'border-red-500':
+                                                form.errors.summary,
+                                        }"
                                     />
-                                    <p v-if="form.errors.summary" class="text-sm text-red-500">{{ form.errors.summary }}</p>
+                                    <p
+                                        v-if="form.errors.summary"
+                                        class="text-sm text-red-500"
+                                    >
+                                        {{ form.errors.summary }}
+                                    </p>
                                 </div>
                             </div>
                         </CardContent>
@@ -196,9 +246,16 @@ const updateChanges = () => {
                                     id="tagline"
                                     v-model="form.tagline"
                                     type="text"
-                                    :class="{ 'border-red-500': form.errors.tagline }"
+                                    :class="{
+                                        'border-red-500': form.errors.tagline,
+                                    }"
                                 />
-                                <p v-if="form.errors.tagline" class="text-sm text-red-500">{{ form.errors.tagline }}</p>
+                                <p
+                                    v-if="form.errors.tagline"
+                                    class="text-sm text-red-500"
+                                >
+                                    {{ form.errors.tagline }}
+                                </p>
                             </div>
                         </CardContent>
                     </Card>
@@ -213,7 +270,10 @@ const updateChanges = () => {
                                 <div class="flex flex-col items-center gap-4">
                                     <Avatar class="h-32 w-32">
                                         <AvatarImage
-                                            :src="homeImagePreview || '/template/assets/img/avatar.jpg'"
+                                            :src="
+                                                homeImagePreview ||
+                                                '/template/assets/img/avatar.jpg'
+                                            "
                                         />
                                         <AvatarFallback>HI</AvatarFallback>
                                     </Avatar>
@@ -221,9 +281,17 @@ const updateChanges = () => {
                                         type="file"
                                         accept="image/*"
                                         @change="handleHomeImageChange"
-                                        :class="{ 'border-red-500': form.errors.home_image }"
+                                        :class="{
+                                            'border-red-500':
+                                                form.errors.home_image,
+                                        }"
                                     />
-                                    <p v-if="form.errors.home_image" class="text-sm text-red-500">{{ form.errors.home_image }}</p>
+                                    <p
+                                        v-if="form.errors.home_image"
+                                        class="text-sm text-red-500"
+                                    >
+                                        {{ form.errors.home_image }}
+                                    </p>
                                 </div>
                             </div>
                         </CardContent>
@@ -236,7 +304,10 @@ const updateChanges = () => {
                                 <div class="flex flex-col items-center gap-4">
                                     <Avatar class="h-32 w-32">
                                         <AvatarImage
-                                            :src="aboutImagePreview || '/template/assets/img/avatar.jpg'"
+                                            :src="
+                                                aboutImagePreview ||
+                                                '/template/assets/img/avatar.jpg'
+                                            "
                                         />
                                         <AvatarFallback>AI</AvatarFallback>
                                     </Avatar>
@@ -244,9 +315,17 @@ const updateChanges = () => {
                                         type="file"
                                         accept="image/*"
                                         @change="handleAboutImageChange"
-                                        :class="{ 'border-red-500': form.errors.banner_image }"
+                                        :class="{
+                                            'border-red-500':
+                                                form.errors.banner_image,
+                                        }"
                                     />
-                                    <p v-if="form.errors.banner_image" class="text-sm text-red-500">{{ form.errors.banner_image }}</p>
+                                    <p
+                                        v-if="form.errors.banner_image"
+                                        class="text-sm text-red-500"
+                                    >
+                                        {{ form.errors.banner_image }}
+                                    </p>
                                 </div>
                             </div>
                         </CardContent>
@@ -260,15 +339,28 @@ const updateChanges = () => {
                                     type="file"
                                     accept=".pdf"
                                     @change="handleCvChange"
-                                    :class="{ 'border-red-500': form.errors.cv }"
+                                    :class="{
+                                        'border-red-500': form.errors.cv,
+                                    }"
                                 />
-                                <p v-if="form.cv" class="text-sm text-muted-foreground">
+                                <p
+                                    v-if="form.cv"
+                                    class="text-sm text-muted-foreground"
+                                >
                                     Selected: {{ form.cv.name }}
                                 </p>
-                                <p v-else-if="about?.cv" class="text-sm text-muted-foreground">
+                                <p
+                                    v-else-if="about?.cv"
+                                    class="text-sm text-muted-foreground"
+                                >
                                     Current: {{ about.cv.split('/').pop() }}
                                 </p>
-                                <p v-if="form.errors.cv" class="text-sm text-red-500">{{ form.errors.cv }}</p>
+                                <p
+                                    v-if="form.errors.cv"
+                                    class="text-sm text-red-500"
+                                >
+                                    {{ form.errors.cv }}
+                                </p>
                             </div>
                         </CardContent>
                     </Card>
@@ -277,4 +369,3 @@ const updateChanges = () => {
         </div>
     </AppLayout>
 </template>
-

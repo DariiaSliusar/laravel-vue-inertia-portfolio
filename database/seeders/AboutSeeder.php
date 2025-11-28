@@ -23,7 +23,7 @@ class AboutSeeder extends Seeder
             'description' => 'I am a passionate and dedicated web developer with a focus on creating dynamic and user-friendly applications. My expertise lies in building robust back-end systems and intuitive front-end interfaces.',
             'summary' => 'Experienced web developer with a passion for creating dynamic applications.',
             'tagline' => 'Laravel Developer',
-            'cv' => 'DariiaSliusar-CV.pdf',
+            'cv' => 'DariiaSliusar.pdf',
         ]);
     }
 }
