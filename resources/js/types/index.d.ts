@@ -37,3 +37,22 @@ export interface User {
 }
 
 export type BreadcrumbItemType = BreadcrumbItem;
+export interface Service {
+    id: number;
+    name: string;
+    description?: string;
+    icon?: string;
+    created_at: string;
+    updated_at: string;
+}
+
+export interface Skill {
+    id: number;
+    name: string;
+    proficiency: string;
+    service_id: number;
+    service?: Service;
+    created_at: string;
+    updated_at: string;
+}
+

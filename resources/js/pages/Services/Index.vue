@@ -49,26 +49,10 @@ function deleteItem(id: number) {
                 <table class="w-full">
                     <thead class="border-b border-gray-200 bg-gray-100">
                         <tr>
-                            <th
-                                class="px-6 py-4 text-left text-sm font-semibold text-gray-700"
-                            >
-                                Title
-                            </th>
-                            <th
-                                class="px-6 py-4 text-left text-sm font-semibold text-gray-700"
-                            >
-                                Icon
-                            </th>
-                            <th
-                                class="px-6 py-4 text-left text-sm font-semibold text-gray-700"
-                            >
-                                Description
-                            </th>
-                            <th
-                                class="px-6 py-4 text-left text-sm font-semibold text-gray-700"
-                            >
-                                Actions
-                            </th>
+                            <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700">Title</th>
+                            <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700">Icon</th>
+                            <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700">Description</th>
+                            <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
