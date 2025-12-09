@@ -39,7 +39,7 @@ export interface User {
 export type BreadcrumbItemType = BreadcrumbItem;
 export interface Service {
     id: number;
-    name: string;
+    title: string;
     description?: string;
     icon?: string;
     created_at: string;

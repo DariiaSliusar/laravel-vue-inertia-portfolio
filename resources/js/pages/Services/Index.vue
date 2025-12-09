@@ -10,11 +10,16 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-const props = defineProps({
-    services: Array,
-});
+defineProps<{
+    services: Array<{
+        id: number;
+        title: string;
+        icon: string;
+        description: string;
+    }>;
+}>();
 
-const form = useForm();
+const form = useForm({});
 
 function deleteItem(id: number) {
     if (confirm('Are you sure you want to delete this service?')) {

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Experience;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -12,7 +13,10 @@ class ExperienceController extends Controller
      */
     public function index()
     {
-        return Inertia::render('Experiences/Index');
+        $experiences = Experience::query()->get();
+        return Inertia::render('Experiences/Index', [
+            'experiences' => $experiences,
+        ]);
     }
 
     /**
@@ -20,7 +24,7 @@ class ExperienceController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('Experiences/Create');
     }
 
     /**
@@ -28,7 +32,15 @@ class ExperienceController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'company' => 'required|string|max:255',
+            'period' => 'required|string|max:255',
+            'position' => 'required|string|max:255',
+        ]);
+
+        Experience::query()->create($validated);
+
+        return redirect()->route('experiences.index')->with('success', 'Experience created successfully.');
     }
 
     /**
@@ -44,7 +56,10 @@ class ExperienceController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $experience = Experience::query()->findOrFail($id);
+        return Inertia::render('Experiences/Edit', [
+            'experience' => $experience,
+        ]);
     }
 
     /**
@@ -52,7 +67,16 @@ class ExperienceController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $validated = $request->validate([
+            'company' => 'required|string|max:255',
+            'period' => 'required|string|max:255',
+            'position' => 'required|string|max:255',
+        ]);
+
+        $experience = Experience::query()->findOrFail($id);
+        $experience->update($validated);
+
+        return redirect()->route('experiences.index')->with('success', 'Experience updated successfully.');
     }
 
     /**
@@ -60,6 +84,9 @@ class ExperienceController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $experience = Experience::query()->findOrFail($id);
+        $experience->delete();
+
+        return redirect()->route('experiences.index')->with('success', 'Experience deleted successfully.');
     }
 }

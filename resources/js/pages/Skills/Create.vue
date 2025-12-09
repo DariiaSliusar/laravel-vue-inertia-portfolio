@@ -5,7 +5,12 @@ import { Head, Link, useForm } from '@inertiajs/vue3';
 import { Button } from '@/components/ui/button';
 
 defineProps<{
-    services: Service[];
+    services: Array<{
+        id: number;
+        title: string;
+        icon?: string;
+        description?: string;
+    }>;
 }>();
 
 const breadcrumbs: BreadcrumbItem[] = [

@@ -10,11 +10,19 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-const props = defineProps({
-    skills: Array,
-});
+defineProps<{
+    skills: Array<{
+        id: number;
+        name: string;
+        proficiency: number;
+        service_id: {
+            id: number;
+            title: string;
+        };
+    }>;
+}>();
 
-const form = useForm();
+const form = useForm({});
 
 function deleteItem(id: number) {
     if (confirm('Are you sure you want to delete this skill?')) {
@@ -91,7 +99,7 @@ function deleteItem(id: number) {
                             </td>
                             <td class="px-6 py-4">
                                 <p class="line-clamp-2 text-sm text-gray-600">
-                                    {{ skill.service.title }}
+                                    {{ skill.service_id.title }}
                                 </p>
                             </td>
                             <td class="px-6 py-4">

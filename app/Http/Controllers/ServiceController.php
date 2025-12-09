@@ -13,7 +13,7 @@ class ServiceController extends Controller
      */
     public function index()
     {
-        $services = Service::get();
+        $services = Service::query()->get();
         return Inertia::render('Services/Index', [
             'services' => $services,
         ]);
@@ -38,7 +38,7 @@ class ServiceController extends Controller
             'description' => 'required',
         ]);
 
-        Service::create([
+        Service::query()->create([
             'title' => $request->title,
             'icon' => $request->icon,
             'description' => $request->description,
@@ -60,7 +60,7 @@ class ServiceController extends Controller
      */
     public function edit(string $id)
     {
-        $service = Service::find($id);
+        $service = Service::query()->find($id);
         return Inertia::render('Services/Edit', [
             'service' => $service,
         ]);
@@ -71,18 +71,15 @@ class ServiceController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $request->validate([
+        $validated = $request->validate([
             'title' => 'required',
             'icon' => 'required',
             'description' => 'required',
         ]);
 
-        $service = Service::find($id);
+        $service = Service::query()->find($id);
 
-        $service->title = $request->title;
-        $service->icon = $request->icon;
-        $service->description = $request->description;
-        $service->save();
+        $service->update($validated);
 
         return redirect()->route("services.index");
     }
@@ -92,7 +89,7 @@ class ServiceController extends Controller
      */
     public function destroy(string $id)
     {
-        $service = Service::find($id);
+        $service = Service::query()->find($id);
         $service->delete();
 
         return redirect()->route("services.index");

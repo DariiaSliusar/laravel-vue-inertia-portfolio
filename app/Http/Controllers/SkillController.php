@@ -42,7 +42,7 @@ class SkillController extends Controller
             'service_id' => 'required|exists:services,id',
         ]);
 
-        Skill::create($validated);
+        Skill::query()->create($validated);
 
         return redirect()->route('skills.index');
     }
@@ -60,7 +60,7 @@ class SkillController extends Controller
      */
     public function edit(string $id)
     {
-        $skill = Skill::findOrFail($id);
+        $skill = Skill::query()->findOrFail($id);
         $services = Service::all();
 
         return Inertia::render('Skills/Edit', [
@@ -80,7 +80,7 @@ class SkillController extends Controller
             'service_id' => 'required|exists:services,id',
         ]);
 
-        $skill = Skill::findOrFail($id);
+        $skill = Skill::query()->findOrFail($id);
         $skill->update($validated);
 
         return redirect()->route('skills.index');
@@ -91,7 +91,7 @@ class SkillController extends Controller
      */
     public function destroy(string $id)
     {
-        $skill = Skill::findOrFail($id);
+        $skill = Skill::query()->findOrFail($id);
         $skill->delete();
 
         return redirect()->route('skills.index');
