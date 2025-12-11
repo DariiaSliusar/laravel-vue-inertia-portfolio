@@ -3,6 +3,7 @@
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\EducationController;
 use App\Http\Controllers\ExperienceController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MediaController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ProjectController;
@@ -14,11 +15,13 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Laravel\Fortify\Features;
 
-Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canRegister' => Features::enabled(Features::registration()),
-    ]);
-})->name('home');
+//Route::get('/', function () {
+//    return Inertia::render('Welcome', [
+//        'canRegister' => Features::enabled(Features::registration()),
+//    ]);
+//})->name('home');
+
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::get('dashboard', function () {
     return Inertia::render('Dashboard');
