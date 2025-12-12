@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\About;
+use App\Models\Media;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -14,9 +15,11 @@ class AboutController extends Controller
     public function index()
     {
         $about = About::first();
+        $medias = Media::all();
 
         return Inertia::render('Abouts/Index', [
             'about' => $about,
+            'medias' => $medias,
         ]);
     }
 
@@ -56,7 +59,9 @@ class AboutController extends Controller
         }
 
         if ($request->hasFile('cv')) {
-            $validated['cv'] = $request->file('cv')->store('cv', 'public');
+            $file = $request->file('cv');
+            $originalName = $file->getClientOriginalName();
+            $validated['cv'] = $file->storeAs('cv', $originalName, 'public');
         }
 
         About::create($validated);
@@ -77,47 +82,60 @@ class AboutController extends Controller
      */
     public function edit(string $id)
     {
-        //
+
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
-    {
-        $about = About::findOrFail($id);
+   public function update(Request $request, string $id)
+{
+    $about = About::findOrFail($id);
 
-        $validated = $request->validate([
-            'name' => 'nullable|string|max:255',
-            'email' => 'nullable|email|max:255',
-            'phone' => 'nullable|string|max:255',
-            'address' => 'nullable|string|max:255',
-            'description' => 'nullable|string',
-            'summary' => 'nullable|string',
-            'tagline' => 'nullable|string',
-            'home_image' => 'nullable|image|max:2048',
-            'banner_image' => 'nullable|image|max:2048',
-            'cv' => 'nullable|mimes:pdf|max:5120',
-        ]);
+    $validated = $request->validate([
+        'name' => 'nullable|string|max:255',
+        'email' => 'nullable|email|max:255',
+        'phone' => 'nullable|string|max:255',
+        'address' => 'nullable|string|max:255',
+        'description' => 'nullable|string',
+        'summary' => 'nullable|string',
+        'tagline' => 'nullable|string',
+        'home_image' => 'nullable|image|max:2048',
+        'banner_image' => 'nullable|image|max:2048',
+        'cv' => 'nullable|mimes:pdf|max:5120',
+    ]);
 
-        // Handle file uploads
-        if ($request->hasFile('home_image')) {
-            $validated['home_image'] = $request->file('home_image')->store('images/about', 'public');
-        }
+    // Оновлюємо тільки текстові поля
+    $about->update([
+        'name' => $validated['name'],
+        'email' => $validated['email'],
+        'phone' => $validated['phone'],
+        'address' => $validated['address'],
+        'description' => $validated['description'],
+        'summary' => $validated['summary'],
+        'tagline' => $validated['tagline'],
+    ]);
 
-        if ($request->hasFile('banner_image')) {
-            $validated['banner_image'] = $request->file('banner_image')->store('images/about', 'public');
-        }
-
-        if ($request->hasFile('cv')) {
-            $validated['cv'] = $request->file('cv')->store('cv', 'public');
-        }
-
-        $about->update($validated);
-
-        return redirect()->route('abouts.index')->with('success', 'About information updated successfully.');
+    // Оновлюємо файли тільки якщо вони передані
+    if ($request->hasFile('home_image')) {
+        $about->home_image = $request->file('home_image')->store('images/about', 'public');
+        $about->save();
     }
 
+    if ($request->hasFile('banner_image')) {
+        $about->banner_image = $request->file('banner_image')->store('images/about', 'public');
+        $about->save();
+    }
+
+    if ($request->hasFile('cv')) {
+        $file = $request->file('cv');
+        $originalName = $file->getClientOriginalName();
+        $about->cv = $file->storeAs('cv', $originalName, 'public');
+        $about->save();
+    }
+
+    return redirect()->route('abouts.index')->with('success', 'About information updated successfully.');
+}
     /**
      * Remove the specified resource from storage.
      */

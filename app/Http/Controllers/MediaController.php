@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Media;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -12,7 +13,11 @@ class MediaController extends Controller
      */
     public function index()
     {
-        return Inertia::render('Medias/Index');
+        $medias = Media::all();
+
+        return Inertia::render('Medias/Index', [
+            'medias' => $medias,
+        ]);
     }
 
     /**
@@ -28,7 +33,14 @@ class MediaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'link' => 'required|string|max:255',
+            'icon' => 'required|string|max:255',
+        ]);
+
+        Media::create($validated);
+
+        return redirect()->route('abouts.index')->with('success', 'Media link created successfully.');
     }
 
     /**
@@ -52,7 +64,16 @@ class MediaController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $media = Media::findOrFail($id);
+
+        $validated = $request->validate([
+            'link' => 'required|string|max:255',
+            'icon' => 'required|string|max:255',
+        ]);
+
+        $media->update($validated);
+
+        return redirect()->route('abouts.index')->with('success', 'Media link updated successfully.');
     }
 
     /**
@@ -60,6 +81,9 @@ class MediaController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $media = Media::findOrFail($id);
+        $media->delete();
+
+        return redirect()->route('abouts.index')->with('success', 'Media link deleted successfully.');
     }
 }
