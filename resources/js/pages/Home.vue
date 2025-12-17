@@ -102,7 +102,6 @@ const getServiceSkills = (serviceId: number) => {
 <template>
     <Head title="Portfolio">
         <link rel="stylesheet" href="/template/assets/fonts/unicons/css/line.css">
-<!--        <link rel="stylesheet" href="/template/assets/css/swiper-bundle.min.css">-->
         <link rel="stylesheet" href="/template/assets/css/styles.css">
     </Head>
 
