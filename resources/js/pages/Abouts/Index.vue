@@ -40,9 +40,16 @@ interface Media {
     updated_at?: string;
 }
 
+interface Statistics {
+    totalMediaLinks: number;
+    lastUpdated?: string;
+    hasCV: boolean;
+}
+
 interface Props {
     about?: About | null;
     medias?: Media[];
+    statistics?: Statistics; // Дані з контролера
 }
 
 const props = defineProps<Props>();
@@ -139,17 +146,11 @@ const updateChanges = () => {
         }).post(update(props.about.id).url, {
             forceFormData: true,
             preserveScroll: true,
-            onSuccess: () => {
-                // Success handled by redirect
-            },
         });
     } else {
         form.post(store().url, {
             forceFormData: true,
             preserveScroll: true,
-            onSuccess: () => {
-                // Success handled by redirect
-            },
         });
     }
 };
@@ -169,7 +170,7 @@ const addMedia = () => {
 };
 
 const deleteMedia = (id: number) => {
-    if (confirm('Are you sure you want to delete this media link?')) {
+    if (confirm('Ви впевнені, що хочете видалити це посилання?')) {
         router.delete(destroyMedia(id).url, {
             preserveScroll: true,
         });
@@ -193,6 +194,24 @@ const deleteMedia = (id: number) => {
                         <AvatarFallback>{{ form.name?.charAt(0) || 'U' }}</AvatarFallback>
                     </Avatar>
                     <p class="text-center font-semibold">{{ form.name || 'User Name' }}</p>
+                </div>
+
+                <!-- Statistics Section (дані з контролера) -->
+                <div v-if="statistics" class="border-b pb-4 space-y-2 text-sm">
+                    <div class="flex items-center justify-between">
+                        <span class="text-muted-foreground">Соціальні мережі:</span>
+                        <span class="font-semibold">{{ statistics.totalMediaLinks }}</span>
+                    </div>
+                    <div v-if="statistics.lastUpdated" class="flex items-center justify-between">
+                        <span class="text-muted-foreground">Оновлено:</span>
+                        <span class="font-semibold text-xs">{{ statistics.lastUpdated }}</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span class="text-muted-foreground">CV:</span>
+                        <span :class="statistics.hasCV ? 'text-green-600' : 'text-red-600'" class="font-semibold">
+                            {{ statistics.hasCV ? '✓ Завантажено' : '✗ Немає' }}
+                        </span>
+                    </div>
                 </div>
 
                 <!-- Navigation Menu -->

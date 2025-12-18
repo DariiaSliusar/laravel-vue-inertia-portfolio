@@ -44,7 +44,7 @@ class SkillController extends Controller
 
         Skill::query()->create($validated);
 
-        return redirect()->route('skills.index');
+        return redirect()->route('skills.index')->with('success', 'Skill created successfully.');
     }
 
     /**
@@ -83,7 +83,7 @@ class SkillController extends Controller
         $skill = Skill::query()->findOrFail($id);
         $skill->update($validated);
 
-        return redirect()->route('skills.index');
+        return redirect()->route('skills.index')->with('success', 'Skill updated successfully.');
     }
 
     /**
@@ -94,6 +94,6 @@ class SkillController extends Controller
         $skill = Skill::query()->findOrFail($id);
         $skill->delete();
 
-        return redirect()->route('skills.index');
+        return redirect()->route('skills.index')->with('success', 'Skill deleted successfully.');
     }
 }

@@ -20,6 +20,12 @@ class AboutController extends Controller
         return Inertia::render('Abouts/Index', [
             'about' => $about,
             'medias' => $medias,
+            // Приклад передачі додаткових даних:
+            'statistics' => [
+                'totalMediaLinks' => $medias->count(),
+                'lastUpdated' => $about?->updated_at?->format('d.m.Y H:i'),
+                'hasCV' => !empty($about?->cv),
+            ],
         ]);
     }
 
