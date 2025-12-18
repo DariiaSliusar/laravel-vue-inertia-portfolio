@@ -19,11 +19,7 @@ const form = useForm({
 });
 
 function submit() {
-    form.post('/educations', {
-        onSuccess: () => {
-            form.reset();
-        },
-    });
+    form.post('/educations');
 }
 </script>
 

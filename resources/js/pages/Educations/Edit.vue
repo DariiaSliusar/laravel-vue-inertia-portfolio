@@ -31,11 +31,7 @@ const form = useForm({
 });
 
 function submit() {
-    form.put(`/educations/${props.education.id}`, {
-        onSuccess: () => {
-            form.reset();
-        },
-    });
+    form.put(`/educations/${props.education.id}`);
 }
 </script>
 

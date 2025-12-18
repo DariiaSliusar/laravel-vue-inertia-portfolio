@@ -54,6 +54,9 @@ function submit() {
     form.post(`/projects/${props.project.id}`, {
         forceFormData: true,
         preserveScroll: true,
+        onSuccess: () => {
+            form.reset('image');
+        },
     });
 }
 </script>
