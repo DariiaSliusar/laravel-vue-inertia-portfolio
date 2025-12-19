@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Service;
+use App\Models\Skill;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -12,7 +14,10 @@ class SkillController extends Controller
      */
     public function index()
     {
-        return Inertia::render('Skills/Index');
+        $skills = Skill::with('service')->get();
+        return Inertia::render('Skills/Index', [
+            'skills' => $skills,
+        ]);
     }
 
     /**
@@ -20,7 +25,10 @@ class SkillController extends Controller
      */
     public function create()
     {
-        //
+        $services = Service::all();
+        return Inertia::render('Skills/Create', [
+            'services' => $services,
+        ]);
     }
 
     /**
@@ -28,7 +36,15 @@ class SkillController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'proficiency' => 'required|integer|min:0|max:100',
+            'service_id' => 'required|exists:services,id',
+        ]);
+
+        Skill::query()->create($validated);
+
+        return redirect()->route('skills.index')->with('success', 'Skill created successfully.');
     }
 
     /**
@@ -44,7 +60,13 @@ class SkillController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $skill = Skill::query()->findOrFail($id);
+        $services = Service::all();
+
+        return Inertia::render('Skills/Edit', [
+            'skill' => $skill,
+            'services' => $services,
+        ]);
     }
 
     /**
@@ -52,7 +74,16 @@ class SkillController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'proficiency' => 'required|integer|min:0|max:100',
+            'service_id' => 'required|exists:services,id',
+        ]);
+
+        $skill = Skill::query()->findOrFail($id);
+        $skill->update($validated);
+
+        return redirect()->route('skills.index')->with('success', 'Skill updated successfully.');
     }
 
     /**
@@ -60,6 +91,9 @@ class SkillController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $skill = Skill::query()->findOrFail($id);
+        $skill->delete();
+
+        return redirect()->route('skills.index')->with('success', 'Skill deleted successfully.');
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Service;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -12,7 +13,10 @@ class ServiceController extends Controller
      */
     public function index()
     {
-        return Inertia::render('Services/Index');
+        $services = Service::query()->get();
+        return Inertia::render('Services/Index', [
+            'services' => $services,
+        ]);
     }
 
     /**
@@ -20,7 +24,7 @@ class ServiceController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('Services/Create');
     }
 
     /**
@@ -28,7 +32,19 @@ class ServiceController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'title' => 'required',
+            'icon' => 'required',
+            'description' => 'required',
+        ]);
+
+        Service::query()->create([
+            'title' => $request->title,
+            'icon' => $request->icon,
+            'description' => $request->description,
+        ]);
+
+        return redirect()->route("services.index")->with('success', 'Service created successfully.');
     }
 
     /**
@@ -44,7 +60,10 @@ class ServiceController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $service = Service::query()->find($id);
+        return Inertia::render('Services/Edit', [
+            'service' => $service,
+        ]);
     }
 
     /**
@@ -52,7 +71,17 @@ class ServiceController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $validated = $request->validate([
+            'title' => 'required',
+            'icon' => 'required',
+            'description' => 'required',
+        ]);
+
+        $service = Service::query()->find($id);
+
+        $service->update($validated);
+
+        return redirect()->route("services.index")->with('success', 'Service updated successfully.');
     }
 
     /**
@@ -60,6 +89,9 @@ class ServiceController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $service = Service::query()->find($id);
+        $service->delete();
+
+        return redirect()->route("services.index")->with('success', 'Service deleted successfully.');
     }
 }

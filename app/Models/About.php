@@ -18,4 +18,9 @@ class About extends Model
         'tagline',
         'cv'
     ];
+
+    protected $casts = [
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+    ];
 }

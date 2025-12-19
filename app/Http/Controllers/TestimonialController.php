@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Testimonial;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -12,7 +13,10 @@ class TestimonialController extends Controller
      */
     public function index()
     {
-        return Inertia::render('Testimonials/Index');
+        $testimonials = Testimonial::query()->get();
+        return Inertia::render('Testimonials/Index', [
+            'testimonials' => $testimonials,
+        ]);
     }
 
     /**
@@ -20,7 +24,7 @@ class TestimonialController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('Testimonials/Create');
     }
 
     /**
@@ -28,7 +32,22 @@ class TestimonialController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'function' => 'required|string|max:255',
+            'testimony' => 'required|string',
+            'rating' => 'required|integer|min:1|max:5',
+            'image' => 'nullable|image|max:2048',
+        ]);
+
+        if ($request->hasFile('image')) {
+            $path = $request->file('image')->store('testimonials', 'public');
+            $validated['image'] = $path;
+        }
+
+        Testimonial::query()->create($validated);
+
+        return redirect()->route('testimonials.index')->with('success', 'Testimonial created successfully.');
     }
 
     /**
@@ -44,7 +63,10 @@ class TestimonialController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $testimonial = Testimonial::query()->findOrFail($id);
+        return Inertia::render('Testimonials/Edit', [
+            'testimonial' => $testimonial,
+        ]);
     }
 
     /**
@@ -52,7 +74,25 @@ class TestimonialController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $testimonial = Testimonial::query()->findOrFail($id);
+
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'function' => 'required|string|max:255',
+            'testimony' => 'required|string',
+            'rating' => 'required|integer|min:1|max:5',
+            'image' => 'nullable|image|max:2048',
+        ]);
+
+        if ($request->hasFile('image')) {
+            $path = $request->file('image')->store('testimonials', 'public');
+            $validated['image'] = $path;
+        }
+
+        $testimonial->update($validated);
+
+        return redirect()->route('testimonials.index')
+            ->with('success', 'Testimonial updated successfully.');
     }
 
     /**
@@ -60,6 +100,8 @@ class TestimonialController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $testimonial = Testimonial::query()->findOrFail($id);
+        $testimonial->delete();
+        return redirect()->route('testimonials.index')->with('success', 'Testimonial deleted successfully.');
     }
 }

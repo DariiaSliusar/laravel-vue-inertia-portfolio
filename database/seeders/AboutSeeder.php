@@ -19,9 +19,9 @@ class AboutSeeder extends Seeder
             'banner_image' => 'no-image.png',
             'phone' => '+48508744705',
             'email' => 'dariiasliusar@gmail.com',
-            'address' => 'Lodz, Poland',
-            'description' => 'I am a passionate and dedicated web developer with a focus on creating dynamic and user-friendly applications. My expertise lies in building robust back-end systems and intuitive front-end interfaces.',
-            'summary' => 'Experienced web developer with a passion for creating dynamic applications.',
+            'address' => 'Łódź, Poland',
+            'description' => 'An experienced Laravel developer specializing in creating reliable and scalable web applications using modern approaches and framework capabilities. I am constantly improving my skills to ensure clean, maintainable code and high-quality projects.',
+            'summary' => 'Experienced web developer with a passion for creating dynamic applications using Laravel on the backend and a variety of modern frontend technologies tailored to each project’s needs.',
             'tagline' => 'Laravel Developer',
             'cv' => 'DariiaSliusar.pdf',
         ]);

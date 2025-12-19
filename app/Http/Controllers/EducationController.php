@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Education;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -12,7 +13,10 @@ class EducationController extends Controller
      */
     public function index()
     {
-        return Inertia::render('Educations/Index');
+        $educations = Education::query()->get();
+        return Inertia::render('Educations/Index', [
+            'educations' => $educations,
+        ]);
     }
 
     /**
@@ -20,7 +24,7 @@ class EducationController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('Educations/Create');
     }
 
     /**
@@ -28,7 +32,16 @@ class EducationController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'institution' => 'required|string|max:255',
+            'period' => 'required|string|max:255',
+            'degree' => 'required|string|max:255',
+            'department' => 'required|string|max:255',
+        ]);
+
+        Education::query()->create($validated);
+
+        return redirect()->route('educations.index')->with('success', 'Education created successfully.');
     }
 
     /**
@@ -44,7 +57,10 @@ class EducationController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $education = Education::query()->findOrFail($id);
+        return Inertia::render('Educations/Edit', [
+            'education' => $education,
+        ]);
     }
 
     /**
@@ -52,7 +68,17 @@ class EducationController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $validated = $request->validate([
+            'institution' => 'required|string|max:255',
+            'period' => 'required|string|max:255',
+            'degree' => 'required|string|max:255',
+            'department' => 'required|string|max:255',
+        ]);
+
+        $education = Education::query()->findOrFail($id);
+        $education->update($validated);
+
+        return redirect()->route('educations.index')->with('success', 'Education updated successfully.');
     }
 
     /**
@@ -60,6 +86,9 @@ class EducationController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $education = Education::query()->findOrFail($id);
+        $education->delete();
+
+        return redirect()->route('educations.index')->with('success', 'Education deleted successfully.');
     }
 }

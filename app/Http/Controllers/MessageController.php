@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Message;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -12,7 +13,10 @@ class MessageController extends Controller
      */
     public function index()
     {
-        return Inertia::render('Messages/Index');
+        $messages = Message::query()->get();
+        return Inertia::render('Messages/Index', [
+            'messages' => $messages,
+        ]);
     }
 
     /**
@@ -60,6 +64,9 @@ class MessageController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $message = Message::query()->findOrFail($id);
+        $message->delete();
+
+        return redirect()->route('messages.index')->with('success', 'Message deleted successfully.');
     }
 }
