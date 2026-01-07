@@ -15,25 +15,23 @@ class ServiceSeeder extends Seeder
     {
         Service::insert([
             [
-                'title' => 'Web Development',
-                'icon' => 'fa-solid fa-code',
-                'description' => 'Building responsive and modern websites.',
+                'title' => 'Creating web applications from scratch',
+                'icon' => 'fa-solid fa-building-circle-check',
+                'description' => 'Developing full-featured, scalable, and secure applications using Laravel as a backend framework.',
             ],
             [
-                'title' => 'Mobile App Development',
-                'icon' => 'fa-solid fa-mobile-alt',
+                'title' => 'Support and refinement of existing projects',
+                'icon' => 'fa-solid fa-wand-magic-sparkles',
                 'description' => 'Creating user-friendly mobile applications.',
             ],
             [
-                'title' => 'SEO Optimization',
-                'icon' => 'fa-solid fa-search',
-                'description' => 'Improving website visibility on search engines.',
+                'title' => 'Additional and Support Services',
+                'icon' => 'fa-solid fa-plus',
+                'description' => 'Fixing bugs in existing code;
+                                  Creating and configuring databases (Migrations);
+                                  Configuring queues (Queues);
+                                  Working with Blade templates, creating forms with backend validation (using Laravel Validation).',
             ],
-            [
-                'title' => 'Digital Marketing',
-                'icon' => 'fa-solid fa-bullhorn',
-                'description' => 'Promoting brands through digital channels.',
-            ]
         ]);
     }
 }
