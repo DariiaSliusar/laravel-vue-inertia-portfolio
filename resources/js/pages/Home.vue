@@ -36,7 +36,7 @@ interface Skill {
     id: number;
     name: string;
     proficiency: number;
-    service_id: number;
+    category?: string;
 }
 
 interface Education {
@@ -83,25 +83,22 @@ interface Props {
 
 const props = defineProps<Props>();
 
-// Group skills by service
-const skillsByService = computed<Record<number, Skill[]>>(() => {
+// Group skills by category
+const skillsByCategory = computed<Record<string, Skill[]>>(() => {
     if (!props.skills) return {};
 
     return props.skills.reduce(
-        (acc: Record<number, Skill[]>, skill: Skill) => {
-            if (!acc[skill.service_id]) {
-                acc[skill.service_id] = [];
+        (acc: Record<string, Skill[]>, skill: Skill) => {
+            const category = skill.category || 'General';
+            if (!acc[category]) {
+                acc[category] = [];
             }
-            acc[skill.service_id].push(skill);
+            acc[category].push(skill);
             return acc;
         },
-        {} as Record<number, Skill[]>,
+        {} as Record<string, Skill[]>,
     );
 });
-
-const getServiceSkills = (serviceId: number): Skill[] => {
-    return skillsByService.value[serviceId] || [];
-};
 
 const activeService = ref<Service | null>(null);
 const activeTab = ref<'education' | 'experience'>('education');
@@ -115,6 +112,16 @@ const getIconEmoji = (title: string): string => {
         return '🎨';
     if (title.toLowerCase().includes('api')) return '🔌';
     return '💡';
+};
+
+const getCategoryIcon = (category: string): string => {
+    const lower = category.toLowerCase();
+    if (lower.includes('frontend')) return '🎨';
+    if (lower.includes('backend')) return '⚙️';
+    if (lower.includes('database')) return '🗄️';
+    if (lower.includes('tool')) return '🔧';
+    if (lower.includes('language')) return '💻';
+    return '📚';
 };
 </script>
 
@@ -399,13 +406,12 @@ const getIconEmoji = (title: string): string => {
                     </p>
                 </div>
 
-                <div
-                    class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3"
-                >
+                <!-- Skills grouped by category -->
+                <div v-if="Object.keys(skillsByCategory).length > 0" class="space-y-12">
                     <div
-                        v-for="service in services"
-                        :key="service.id"
-                        class="overflow-hidden rounded-2xl border border-cyan-100 bg-white shadow-md transition-shadow hover:shadow-xl"
+                        v-for="(categorySkills, category) in skillsByCategory"
+                        :key="category"
+                        class="overflow-hidden rounded-2xl border border-cyan-100 bg-white shadow-md"
                     >
                         <div
                             class="border-b border-cyan-100 bg-gradient-to-br from-cyan-50 to-yellow-50 p-6"
@@ -415,47 +421,58 @@ const getIconEmoji = (title: string): string => {
                                     class="mr-4 flex h-12 w-12 items-center justify-center rounded-xl bg-cyan-100"
                                 >
                                     <div class="text-2xl text-cyan-700">
-                                        {{ getIconEmoji(service.title) }}
+                                        {{ getCategoryIcon(category) }}
                                     </div>
                                 </div>
                                 <h3 class="text-xl font-bold text-cyan-800">
-                                    {{ service.title }}
+                                    {{ category }}
                                 </h3>
                             </div>
                         </div>
 
                         <div class="p-6">
-                            <p class="mb-6 text-gray-600">
-                                {{ service.description }}
-                            </p>
-
-                            <div class="space-y-4">
+                            <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
                                 <div
-                                    v-for="skill in getServiceSkills(
-                                        service.id,
-                                    )"
+                                    v-for="skill in categorySkills"
                                     :key="skill.id"
+                                    class="space-y-2"
                                 >
-                                    <div class="mb-1 flex justify-between">
-                                        <span class="font-medium">{{
-                                            skill.name
-                                        }}</span>
-                                        <span class="font-medium text-cyan-600"
-                                            >{{ skill.proficiency }}%</span
-                                        >
+                                    <div class="flex justify-between">
+                                        <span class="font-medium">{{ skill.name }}</span>
+                                        <span class="font-medium text-cyan-600">
+                                            {{ skill.proficiency }}%
+                                        </span>
                                     </div>
-                                    <div
-                                        class="h-2.5 w-full rounded-full bg-gray-200"
-                                    >
+                                    <div class="h-2.5 w-full rounded-full bg-gray-200">
                                         <div
-                                            class="h-2.5 rounded-full bg-gradient-to-r from-cyan-500 to-yellow-500"
-                                            :style="{
-                                                width: `${skill.proficiency}%`,
-                                            }"
+                                            class="h-2.5 rounded-full bg-gradient-to-r from-cyan-500 to-yellow-500 transition-all duration-500"
+                                            :style="{ width: `${skill.proficiency}%` }"
                                         ></div>
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Simple list if no categories or no skills -->
+                <div v-else-if="skills && skills.length > 0" class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+                    <div
+                        v-for="skill in skills"
+                        :key="skill.id"
+                        class="rounded-xl border border-cyan-100 bg-white p-6 shadow-md"
+                    >
+                        <div class="mb-2 flex justify-between">
+                            <span class="font-medium">{{ skill.name }}</span>
+                            <span class="font-medium text-cyan-600">
+                                {{ skill.proficiency }}%
+                            </span>
+                        </div>
+                        <div class="h-2.5 w-full rounded-full bg-gray-200">
+                            <div
+                                class="h-2.5 rounded-full bg-gradient-to-r from-cyan-500 to-yellow-500"
+                                :style="{ width: `${skill.proficiency}%` }"
+                            ></div>
                         </div>
                     </div>
                 </div>
@@ -1062,33 +1079,9 @@ const getIconEmoji = (title: string): string => {
                     {{ activeService ? getIconEmoji(activeService.title) : '' }}
                 </div>
 
-                <p class="mb-6 text-gray-600">
+                <p class="text-gray-600">
                     {{ activeService?.description }}
                 </p>
-
-                <div v-if="activeService && activeService.id" class="space-y-4">
-                    <h4 class="text-lg font-bold text-gray-800">
-                        Related Skills:
-                    </h4>
-                    <div
-                        v-for="skill in getServiceSkills(activeService.id)"
-                        :key="skill.id"
-                        class="space-y-2"
-                    >
-                        <div class="flex justify-between">
-                            <span class="font-medium">{{ skill.name }}</span>
-                            <span class="font-medium text-cyan-600"
-                                >{{ skill.proficiency }}%</span
-                            >
-                        </div>
-                        <div class="h-2.5 w-full rounded-full bg-gray-200">
-                            <div
-                                class="h-2.5 rounded-full bg-gradient-to-r from-cyan-500 to-yellow-500"
-                                :style="{ width: `${skill.proficiency}%` }"
-                            ></div>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </div>

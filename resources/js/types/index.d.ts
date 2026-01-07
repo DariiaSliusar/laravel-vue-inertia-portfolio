@@ -49,9 +49,8 @@ export interface Service {
 export interface Skill {
     id: number;
     name: string;
-    proficiency: string;
-    service_id: number;
-    service?: Service;
+    proficiency: number;
+    category?: string;
     created_at: string;
     updated_at: string;
 }

@@ -5,12 +5,7 @@ import { Head, Link, useForm } from '@inertiajs/vue3';
 import { Button } from '@/components/ui/button';
 
 defineProps<{
-    services: Array<{
-        id: number;
-        title: string;
-        icon?: string;
-        description?: string;
-    }>;
+    categories: string[];
 }>();
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -23,7 +18,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 const form = useForm({
     name: '',
     proficiency: '',
-    service_id: '',
+    category: '',
 });
 
 function submit() {
@@ -105,34 +100,33 @@ function submit() {
                     </p>
                 </div>
 
-                <!-- Service Field -->
+                <!-- Category Field -->
                 <div>
                     <label
-                        for="service_id"
+                        for="category"
                         class="mb-2 block text-sm font-medium text-gray-700"
                     >
-                        Service
+                        Category
                     </label>
                     <select
-                        id="service_id"
-                        v-model="form.service_id"
+                        id="category"
+                        v-model="form.category"
                         class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
-                        required
                     >
-                        <option value="" disabled>Select a service</option>
+                        <option value="">No category</option>
                         <option
-                            v-for="service in services"
-                            :key="service.id"
-                            :value="service.id"
+                            v-for="category in categories"
+                            :key="category"
+                            :value="category"
                         >
-                            {{ service.title}}
+                            {{ category }}
                         </option>
                     </select>
                     <p
-                        v-if="form.errors.service_id"
+                        v-if="form.errors.category"
                         class="mt-1 text-sm text-red-600"
                     >
-                        {{ form.errors.service_id }}
+                        {{ form.errors.category }}
                     </p>
                 </div>
 

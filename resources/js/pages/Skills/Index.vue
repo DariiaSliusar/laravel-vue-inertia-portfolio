@@ -15,10 +15,7 @@ defineProps<{
         id: number;
         name: string;
         proficiency: number;
-        service_id: {
-            id: number;
-            title: string;
-        };
+        category?: string;
     }>;
 }>();
 
@@ -66,7 +63,7 @@ function deleteItem(id: number) {
                             <th
                                 class="px-6 py-4 text-left text-sm font-semibold text-gray-700"
                             >
-                                Service
+                                Category
                             </th>
                             <th
                                 class="px-6 py-4 text-left text-sm font-semibold text-gray-700"
@@ -98,9 +95,9 @@ function deleteItem(id: number) {
                                 </div>
                             </td>
                             <td class="px-6 py-4">
-                                <p class="line-clamp-2 text-sm text-gray-600">
-                                    {{ skill.service_id.title }}
-                                </p>
+                                <span class="text-sm text-gray-600">
+                                    {{ skill.category || 'No category' }}
+                                </span>
                             </td>
                             <td class="px-6 py-4">
                                 <div class="flex gap-2">

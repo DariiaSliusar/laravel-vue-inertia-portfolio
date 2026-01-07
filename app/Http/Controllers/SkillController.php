@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Service;
 use App\Models\Skill;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -14,7 +13,7 @@ class SkillController extends Controller
      */
     public function index()
     {
-        $skills = Skill::with('service')->get();
+        $skills = Skill::all();
         return Inertia::render('Skills/Index', [
             'skills' => $skills,
         ]);
@@ -25,9 +24,9 @@ class SkillController extends Controller
      */
     public function create()
     {
-        $services = Service::all();
+        $categories = ['Frontend', 'Backend', 'Database', 'Tools'];
         return Inertia::render('Skills/Create', [
-            'services' => $services,
+            'categories' => $categories,
         ]);
     }
 
@@ -39,7 +38,7 @@ class SkillController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'proficiency' => 'required|integer|min:0|max:100',
-            'service_id' => 'required|exists:services,id',
+            'category' => 'nullable|string|max:255',
         ]);
 
         Skill::query()->create($validated);
@@ -61,11 +60,11 @@ class SkillController extends Controller
     public function edit(string $id)
     {
         $skill = Skill::query()->findOrFail($id);
-        $services = Service::all();
+        $categories = ['Frontend', 'Backend', 'Database', 'Tools'];
 
         return Inertia::render('Skills/Edit', [
             'skill' => $skill,
-            'services' => $services,
+            'categories' => $categories,
         ]);
     }
 
@@ -77,7 +76,7 @@ class SkillController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'proficiency' => 'required|integer|min:0|max:100',
-            'service_id' => 'required|exists:services,id',
+            'category' => 'nullable|string|max:255',
         ]);
 
         $skill = Skill::query()->findOrFail($id);

@@ -9,11 +9,6 @@ class Skill extends Model
     protected $fillable = [
         'name',
         'proficiency',
-        'service_id',
+        'category',
     ];
-
-    public function service()
-    {
-        return $this->belongsTo(Service::class);
-    }
 }

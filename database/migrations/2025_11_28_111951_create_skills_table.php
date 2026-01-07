@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name')->nullable();
             $table->integer('proficiency')->nullable();
-            $table->integer('service_id')->nullable();
+            $table->string('category')->nullable();
             $table->timestamps();
         });
     }
