@@ -291,50 +291,89 @@ const getIconEmoji = (title: string): string => {
                             {{ about?.description }}
                         </p>
 
-                        <div class="mt-6 grid grid-cols-3 gap-4">
-                            <div
-                                class="rounded-xl border border-cyan-100 bg-cyan-50 p-4 text-center"
-                            >
-                                <Phone
-                                    class="mx-auto mb-2 h-6 w-6 text-cyan-600"
-                                />
-                                <p class="text-sm font-medium">Call Me</p>
-                                <p class="mt-1 text-sm text-cyan-700">
+<!--                        <div class="mt-6 grid grid-cols-3 gap-4">-->
+<!--                            <div-->
+<!--                                class="rounded-xl border border-cyan-100 bg-cyan-50 p-4 text-center"-->
+<!--                            >-->
+<!--                                <Phone-->
+<!--                                    class="mx-auto mb-2 h-6 w-6 text-cyan-600"-->
+<!--                                />-->
+<!--                                <p class="text-sm font-medium">Call Me</p>-->
+<!--                                <p class="mt-1 text-sm text-cyan-700">-->
+<!--                                    {{ about?.phone }}-->
+<!--                                </p>-->
+<!--                            </div>-->
+<!--                            <div-->
+<!--                                class="rounded-xl border border-yellow-100 bg-yellow-50 p-4 text-center"-->
+<!--                            >-->
+<!--                                <Mail-->
+<!--                                    class="mx-auto mb-2 h-6 w-6 text-yellow-600"-->
+<!--                                />-->
+<!--                                <p class="text-sm font-medium">Email</p>-->
+<!--                                <p class="mt-1 text-xs text-yellow-700 break-words">-->
+<!--                                    {{ about?.email }}-->
+<!--                                </p>-->
+<!--                            </div>-->
+<!--                            <div-->
+<!--                                class="rounded-xl border border-cyan-100 bg-cyan-50 p-4 text-center"-->
+<!--                            >-->
+<!--                                <MapPin-->
+<!--                                    class="mx-auto mb-2 h-6 w-6 text-cyan-600"-->
+<!--                                />-->
+<!--                                <p class="text-sm font-medium">Location</p>-->
+<!--                                <p class="mt-1 text-sm text-cyan-700">-->
+<!--                                    {{ about?.address }}-->
+<!--                                </p>-->
+<!--                            </div>-->
+<!--                        </div>-->
+
+<!--                        <a-->
+<!--                            v-if="about?.cv"-->
+<!--                            :href="`/storage/${about.cv}`"-->
+<!--                            download-->
+<!--                            class="mt-4 inline-flex items-center rounded-lg bg-gradient-to-r from-cyan-600 to-yellow-500 px-6 py-3 font-medium text-white shadow-md transition-shadow hover:shadow-lg"-->
+<!--                        >-->
+<!--                            Download CV <Download class="ml-2 h-4 w-4" />-->
+<!--                        </a>-->
+
+                        <div class="mt-6 grid grid-cols-2 gap-0 overflow-hidden rounded-xl border-2 border-cyan-200 shadow-md">
+                            <div class="border-r border-b border-cyan-200 bg-gradient-to-br from-cyan-50 to-cyan-100 p-4 text-center">
+                                <Phone class="mx-auto mb-2 h-6 w-6 text-cyan-600" />
+                                <p class="text-xs font-medium text-gray-700">Call Me</p>
+                                <p class="mt-1 text-sm font-semibold text-cyan-700">
                                     {{ about?.phone }}
                                 </p>
                             </div>
-                            <div
-                                class="rounded-xl border border-yellow-100 bg-yellow-50 p-4 text-center"
-                            >
-                                <Mail
-                                    class="mx-auto mb-2 h-6 w-6 text-yellow-600"
-                                />
-                                <p class="text-sm font-medium">Email</p>
-                                <p class="mt-1 text-xs text-yellow-700 break-words">
+                            <div class="border-b border-yellow-200 bg-gradient-to-br from-yellow-50 to-yellow-100 p-4 text-center">
+                                <Mail class="mx-auto mb-2 h-6 w-6 text-yellow-600" />
+                                <p class="text-xs font-medium text-gray-700">Email</p>
+                                <p class="mt-1 text-xs font-semibold text-yellow-700 break-words">
                                     {{ about?.email }}
                                 </p>
                             </div>
-                            <div
-                                class="rounded-xl border border-cyan-100 bg-cyan-50 p-4 text-center"
-                            >
-                                <MapPin
-                                    class="mx-auto mb-2 h-6 w-6 text-cyan-600"
-                                />
-                                <p class="text-sm font-medium">Location</p>
-                                <p class="mt-1 text-sm text-cyan-700">
+                            <div class="border-r bg-gradient-to-br from-yellow-50 to-yellow-100 p-4 text-center">
+                                <MapPin class="mx-auto mb-2 h-6 w-6 text-yellow-600" />
+                                <p class="text-xs font-medium text-gray-700">Location</p>
+                                <p class="mt-1 text-sm font-semibold text-yellow-700">
                                     {{ about?.address }}
                                 </p>
                             </div>
+                            <div class="bg-gradient-to-br from-cyan-50 to-cyan-100 p-4 text-center">
+                                <Download class="mx-auto mb-2 h-6 w-6 text-cyan-600" />
+                                <p class="text-xs font-medium text-gray-700">Resume</p>
+                                <a
+                                    v-if="about?.cv"
+                                    :href="`/storage/${about.cv}`"
+                                    download
+                                    class="mt-1 inline-block text-sm font-semibold text-cyan-700 hover:underline"
+                                >
+                                    Download
+                                </a>
+                                <span v-else class="mt-1 inline-block text-sm font-semibold text-gray-400">
+                                    N/A
+                                </span>
+                            </div>
                         </div>
-
-                        <a
-                            v-if="about?.cv"
-                            :href="`/storage/${about.cv}`"
-                            download
-                            class="mt-4 inline-flex items-center rounded-lg bg-gradient-to-r from-cyan-600 to-yellow-500 px-6 py-3 font-medium text-white shadow-md transition-shadow hover:shadow-lg"
-                        >
-                            Download CV <Download class="ml-2 h-4 w-4" />
-                        </a>
                     </div>
                 </div>
             </div>
