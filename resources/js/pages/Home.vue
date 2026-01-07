@@ -310,7 +310,7 @@ const getIconEmoji = (title: string): string => {
                                     class="mx-auto mb-2 h-6 w-6 text-yellow-600"
                                 />
                                 <p class="text-sm font-medium">Email</p>
-                                <p class="mt-1 text-sm text-yellow-700">
+                                <p class="mt-1 text-xs text-yellow-700 break-words">
                                     {{ about?.email }}
                                 </p>
                             </div>
