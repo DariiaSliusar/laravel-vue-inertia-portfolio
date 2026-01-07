@@ -15,14 +15,19 @@ class ExperienceSeeder extends Seeder
     {
         Experience::insert([
             [
-                'company' => 'Tech Solutions',
-                'period' => '2019 - 2021',
-                'position' => 'Software Engineer',
+                'company' => 'Self Employed',
+                'period' => '25.06.2023 — 16.01.2025',
+                'position' => 'Laravel Developer',
             ],
             [
-                'company' => 'Web Innovations',
-                'period' => '2021 - 2023',
-                'position' => 'Senior Developer',
+                'company' => 'DOIT',
+                'period' => '16.01.2025 — 4.06.2025',
+                'position' => 'Laravel Developer',
+            ],
+            [
+                'company' => 'Self Employed',
+                'period' => '05.06.2025 — Present',
+                'position' => 'Laravel Developer',
             ],
         ]);
     }

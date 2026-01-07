@@ -15,16 +15,16 @@ class EducationSeeder extends Seeder
     {
         Education::insert([
             [
-                'institution' => 'University of Example',
-                'period' => '2015 - 2019',
+                'institution' => 'Oles Honchar Dnipro National University',
+                'period' => '2013 - 2017',
                 'degree' => 'Bachelor of Science',
-                'department' => 'Computer Science',
+                'department' => 'Food technology',
             ],
             [
-                'institution' => 'Example Institute of Technology',
-                'period' => '2020 - 2022',
+                'institution' => 'Oles Honchar Dnipro National University',
+                'period' => '2017 - 2018',
                 'degree' => 'Master of Science',
-                'department' => 'Software Engineering',
+                'department' => 'Chemistry',
             ],
         ]);
     }
