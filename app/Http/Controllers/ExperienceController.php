@@ -13,7 +13,7 @@ class ExperienceController extends Controller
      */
     public function index()
     {
-        $experiences = Experience::query()->get();
+        $experiences = Experience::query()->orderByDesc('id')->get();
         return Inertia::render('Experiences/Index', [
             'experiences' => $experiences,
         ]);

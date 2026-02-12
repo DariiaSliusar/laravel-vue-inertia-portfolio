@@ -19,8 +19,8 @@ class HomeController extends Controller
         $about = About::first();
         $services = Service::all();
         $skills = Skill::all();
-        $educations = Education::orderBy('period', 'desc')->get();
-        $experiences = Experience::orderBy('period', 'desc')->get();
+        $educations = Education::orderBy('id', 'desc')->get();
+        $experiences = Experience::orderBy('id', 'desc')->get();
         $projects = Project::all();
         $testimonials = Testimonial::all();
 

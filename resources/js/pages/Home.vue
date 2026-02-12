@@ -100,7 +100,7 @@ const skillsByCategory = computed<Record<string, Skill[]>>(() => {
 });
 
 const activeService = ref<Service | null>(null);
-const activeTab = ref<'education' | 'experience'>('education');
+const activeTab = ref<'education' | 'experience'>('experience');
 
 const getCategoryIcon = (category: string): string => {
     const lower = category.toLowerCase();
@@ -111,6 +111,12 @@ const getCategoryIcon = (category: string): string => {
     if (lower.includes('language')) return '💻';
     return '📚';
 };
+
+const sortedExperiences = computed(() => {
+    if (!props.experiences) return [];
+    // Сортуємо по id у спадному порядку (останній досвід перший)
+    return [...props.experiences].sort((a, b) => b.id - a.id);
+});
 </script>
 
 <template>
@@ -501,20 +507,6 @@ const getCategoryIcon = (category: string): string => {
                 <div class="mx-auto max-w-4xl">
                     <div class="mb-12 flex justify-center space-x-8">
                         <button
-                            @click="activeTab = 'education'"
-                            :class="[
-                                'rounded-xl px-6 py-3 font-medium shadow-md transition-all',
-                                activeTab === 'education'
-                                    ? 'bg-gradient-to-r from-cyan-600 to-cyan-400 text-white'
-                                    : 'border-2 border-dashed border-cyan-300 bg-white text-cyan-700 hover:bg-cyan-50',
-                            ]"
-                        >
-                            <div class="flex items-center">
-                                <span class="mr-2">🎓</span>
-                                Education
-                            </div>
-                        </button>
-                        <button
                             @click="activeTab = 'experience'"
                             :class="[
                                 'rounded-xl px-6 py-3 font-medium shadow-md transition-all',
@@ -526,6 +518,20 @@ const getCategoryIcon = (category: string): string => {
                             <div class="flex items-center">
                                 <span class="mr-2">💼</span>
                                 Experience
+                            </div>
+                        </button>
+                        <button
+                            @click="activeTab = 'education'"
+                            :class="[
+                                'rounded-xl px-6 py-3 font-medium shadow-md transition-all',
+                                activeTab === 'education'
+                                    ? 'bg-gradient-to-r from-cyan-600 to-cyan-400 text-white'
+                                    : 'border-2 border-dashed border-cyan-300 bg-white text-cyan-700 hover:bg-cyan-50',
+                            ]"
+                        >
+                            <div class="flex items-center">
+                                <span class="mr-2">🎓</span>
+                                Education
                             </div>
                         </button>
                     </div>
@@ -543,24 +549,20 @@ const getCategoryIcon = (category: string): string => {
                             <div
                                 class="absolute -left-9 flex h-6 w-6 items-center justify-center rounded-full border-4 border-white bg-gradient-to-r from-cyan-500 to-yellow-500 shadow-md"
                             >
-                                <span class="text-xs font-bold text-white">{{
-                                    index + 1
-                                }}</span>
+                                <!-- Зворотній відлік: найбільший номер для першого елемента -->
+                                <span class="text-xs font-bold text-white">{{ educations.length - index }}</span>
                             </div>
 
                             <div
                                 class="rounded-xl border border-cyan-100 bg-white p-6 shadow-md"
                             >
-                                <h3
-                                    class="mb-1 text-xl font-bold text-gray-800"
-                                >
+                                <h3 class="mb-1 text-xl font-bold text-gray-800">
                                     {{ edu.degree }}
                                 </h3>
                                 <p class="mb-2 font-medium text-cyan-700">
                                     {{ edu.institution }}
                                 </p>
                                 <div class="flex items-center text-gray-600">
-                                    <span class="mr-2">📅</span>
                                     <span>{{ edu.period }}</span>
                                 </div>
                                 <p
@@ -579,31 +581,23 @@ const getCategoryIcon = (category: string): string => {
                         class="relative ml-2 border-l-2 border-dashed border-cyan-300 pl-8"
                     >
                         <div
-                            v-for="(exp, index) in experiences"
+                            v-for="(exp, index) in sortedExperiences"
                             :key="exp.id"
                             class="relative mb-12"
                         >
                             <div
                                 class="absolute -left-9 flex h-6 w-6 items-center justify-center rounded-full border-4 border-white bg-gradient-to-r from-cyan-500 to-yellow-500 shadow-md"
                             >
-                                <span class="text-xs font-bold text-white">{{
-                                    index + 1
-                                }}</span>
+                                <!-- Зворотній відлік: найбільший номер для першого елемента -->
+                                <span class="text-xs font-bold text-white">{{ sortedExperiences.length - index }}</span>
                             </div>
 
                             <div
                                 class="rounded-xl border border-cyan-100 bg-white p-6 shadow-md"
                             >
-                                <h3
-                                    class="mb-1 text-xl font-bold text-gray-800"
-                                >
-                                    {{ exp.position }}
-                                </h3>
-                                <p class="mb-2 font-medium text-cyan-700">
-                                    {{ exp.company }}
-                                </p>
+                                <h3 class="mb-1 text-xl font-bold text-gray-800">{{ exp.position }}</h3>
+                                <p class="mb-2 font-medium text-cyan-700">{{ exp.company }}</p>
                                 <div class="flex items-center text-gray-600">
-                                    <span class="mr-2">📅</span>
                                     <span>{{ exp.period }}</span>
                                 </div>
                             </div>

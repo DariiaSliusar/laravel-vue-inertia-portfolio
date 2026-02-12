@@ -13,7 +13,7 @@ class EducationController extends Controller
      */
     public function index()
     {
-        $educations = Education::query()->get();
+        $educations = Education::query()->orderByDesc('id')->get();
         return Inertia::render('Educations/Index', [
             'educations' => $educations,
         ]);
