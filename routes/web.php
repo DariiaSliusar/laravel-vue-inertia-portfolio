@@ -40,4 +40,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('users', UserController::class);
 });
 
+Route::post('/messages', [App\Http\Controllers\MessageController::class, 'store'])->name('messages.store');
+
 require __DIR__.'/settings.php';

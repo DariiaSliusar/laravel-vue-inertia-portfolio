@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { ref, computed, nextTick } from 'vue';
 import {
     Github,
     Linkedin,
@@ -9,7 +9,7 @@ import {
     Phone,
     MapPin,
 } from 'lucide-vue-next';
-import { Head } from '@inertiajs/vue3';
+import { Head, useForm } from '@inertiajs/vue3';
 
 interface About {
     name?: string;
@@ -115,6 +115,38 @@ const sortedExperiences = computed(() => {
     // Сортуємо по id у спадному порядку (останній досвід перший)
     return [...props.experiences].sort((a, b) => b.id - a.id);
 });
+
+const messageForm = useForm({
+    name: '',
+    email: '',
+    subject: '',
+    description: '',
+});
+
+const showSuccess = ref(false);
+const formSectionRef = ref<HTMLElement | null>(null);
+
+const submitMessage = () => {
+    messageForm.post('/messages', {
+        preserveScroll: true,
+        onSuccess: () => {
+            messageForm.reset();
+            showSuccess.value = true;
+            nextTick(() => {
+                if (formSectionRef.value) {
+                    formSectionRef.value.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            });
+            setTimeout(() => {
+                showSuccess.value = false;
+            }, 3000);
+        },
+    });
+};
+
+const closeSuccess = () => {
+    showSuccess.value = false;
+};
 </script>
 
 <template>
@@ -777,9 +809,18 @@ const sortedExperiences = computed(() => {
         <!-- Contact Section -->
         <section
             id="contact"
+            ref="formSectionRef"
             class="bg-gradient-to-br from-yellow-50 to-cyan-50 py-20"
         >
             <div class="mx-auto max-w-6xl px-4">
+                <div v-if="showSuccess" class="fixed inset-0 z-50 flex items-center justify-center" style="backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);">
+                    <div class="rounded-xl bg-white px-8 py-6 text-center shadow-lg relative">
+                        <button @click="closeSuccess" class="absolute top-2 right-2 text-gray-400 hover:text-gray-700 text-2xl leading-none">&times;</button>
+                        <div class="mb-2 text-2xl text-green-600">✔</div>
+                        <div class="text-lg font-semibold">Повідомлення відправлено!</div>
+                    </div>
+                </div>
+
                 <div class="mb-16 text-center">
                     <h2
                         class="mb-4 bg-gradient-to-r from-cyan-700 to-yellow-500 bg-clip-text text-3xl font-bold text-transparent md:text-4xl"
@@ -859,7 +900,7 @@ const sortedExperiences = computed(() => {
                             <h3 class="mb-6 text-2xl font-bold text-gray-800">
                                 Send a message
                             </h3>
-                            <form class="space-y-6">
+                            <form class="space-y-6" @submit.prevent="submitMessage">
                                 <div
                                     class="grid grid-cols-1 gap-6 md:grid-cols-2"
                                 >
@@ -872,6 +913,7 @@ const sortedExperiences = computed(() => {
                                         <input
                                             type="text"
                                             id="name"
+                                            v-model="messageForm.name"
                                             class="w-full rounded-lg border border-gray-300 px-4 py-3 transition focus:border-transparent focus:ring-2 focus:ring-cyan-500"
                                             placeholder="Your name"
                                         />
@@ -885,6 +927,7 @@ const sortedExperiences = computed(() => {
                                         <input
                                             type="email"
                                             id="email"
+                                            v-model="messageForm.email"
                                             class="w-full rounded-lg border border-gray-300 px-4 py-3 transition focus:border-transparent focus:ring-2 focus:ring-cyan-500"
                                             placeholder="Your email"
                                         />
@@ -900,6 +943,7 @@ const sortedExperiences = computed(() => {
                                     <input
                                         type="text"
                                         id="project"
+                                        v-model="messageForm.subject"
                                         class="w-full rounded-lg border border-gray-300 px-4 py-3 transition focus:border-transparent focus:ring-2 focus:ring-cyan-500"
                                         placeholder="Project title"
                                     />
@@ -914,9 +958,16 @@ const sortedExperiences = computed(() => {
                                     <textarea
                                         id="message"
                                         rows="5"
+                                        v-model="messageForm.description"
                                         class="w-full rounded-lg border border-gray-300 px-4 py-3 transition focus:border-transparent focus:ring-2 focus:ring-cyan-500"
                                         placeholder="How can I help you?"
                                     ></textarea>
+                                </div>
+
+                                <div v-if="messageForm.hasErrors" class="mb-4 text-red-600">
+                                    <div v-for="(error, key) in messageForm.errors" :key="key">
+                                        {{ error }}
+                                    </div>
                                 </div>
 
                                 <button
