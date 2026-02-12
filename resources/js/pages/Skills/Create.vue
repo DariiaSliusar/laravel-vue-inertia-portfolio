@@ -17,7 +17,6 @@ const breadcrumbs: BreadcrumbItem[] = [
 
 const form = useForm({
     name: '',
-    proficiency: '',
     category: '',
 });
 
@@ -68,35 +67,6 @@ function submit() {
                         class="mt-1 text-sm text-red-600"
                     >
                         {{ form.errors.name }}
-                    </p>
-                </div>
-
-                <!-- Proficiency Field -->
-                <div>
-                    <label
-                        for="proficiency"
-                        class="mb-2 block text-sm font-medium text-gray-700"
-                    >
-                        Proficiency ({{ form.proficiency }}%)
-                    </label>
-                    <input
-                        id="proficiency"
-                        v-model="form.proficiency"
-                        type="range"
-                        min="0"
-                        max="100"
-                        class="h-2 w-full cursor-pointer appearance-none rounded-lg bg-gray-200"
-                    />
-                    <div class="mt-2 flex justify-between text-xs text-gray-500">
-                        <span>0%</span>
-                        <span>50%</span>
-                        <span>100%</span>
-                    </div>
-                    <p
-                        v-if="form.errors.proficiency"
-                        class="mt-1 text-sm text-red-600"
-                    >
-                        {{ form.errors.proficiency }}
                     </p>
                 </div>
 

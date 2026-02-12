@@ -37,7 +37,6 @@ class SkillController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'proficiency' => 'required|integer|min:0|max:100',
             'category' => 'nullable|string|max:255',
         ]);
 
@@ -75,7 +74,6 @@ class SkillController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'proficiency' => 'required|integer|min:0|max:100',
             'category' => 'nullable|string|max:255',
         ]);
 

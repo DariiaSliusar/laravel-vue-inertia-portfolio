@@ -14,7 +14,6 @@ defineProps<{
     skills: Array<{
         id: number;
         name: string;
-        proficiency: number;
         category?: string;
     }>;
 }>();
@@ -58,11 +57,6 @@ function deleteItem(id: number) {
                             <th
                                 class="px-6 py-4 text-left text-sm font-semibold text-gray-700"
                             >
-                                Proficiency
-                            </th>
-                            <th
-                                class="px-6 py-4 text-left text-sm font-semibold text-gray-700"
-                            >
                                 Category
                             </th>
                             <th
@@ -80,19 +74,6 @@ function deleteItem(id: number) {
                         >
                             <td class="px-6 py-4 font-medium text-gray-900">
                                 {{ skill.name }}
-                            </td>
-                            <td class="px-6 py-4">
-                                <div class="flex items-center gap-3">
-                                    <div class="h-2 flex-1 overflow-hidden rounded-full bg-gray-200">
-                                        <div
-                                            class="h-full rounded-full bg-blue-600 transition-all duration-300"
-                                            :style="{ width: `${skill.proficiency}%` }"
-                                        ></div>
-                                    </div>
-                                    <span class="min-w-[3rem] text-sm font-medium text-gray-700">
-                                        {{ skill.proficiency }}%
-                                    </span>
-                                </div>
                             </td>
                             <td class="px-6 py-4">
                                 <span class="text-sm text-gray-600">

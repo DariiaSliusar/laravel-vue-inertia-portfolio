@@ -35,7 +35,6 @@ interface Service {
 interface Skill {
     id: number;
     name: string;
-    proficiency: number;
     category?: string;
 }
 
@@ -406,8 +405,8 @@ const getCategoryIcon = (category: string): string => {
                     </p>
                 </div>
 
-                <!-- Skills grouped by category -->
-                <div v-if="Object.keys(skillsByCategory).length > 0" class="space-y-12">
+                <!-- Skills grouped by category as simple comma-separated list -->
+                <div v-if="Object.keys(skillsByCategory).length > 0" class="space-y-8">
                     <div
                         v-for="(categorySkills, category) in skillsByCategory"
                         :key="category"
@@ -431,50 +430,18 @@ const getCategoryIcon = (category: string): string => {
                         </div>
 
                         <div class="p-6">
-                            <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
-                                <div
-                                    v-for="skill in categorySkills"
-                                    :key="skill.id"
-                                    class="space-y-2"
-                                >
-                                    <div class="flex justify-between">
-                                        <span class="font-medium">{{ skill.name }}</span>
-                                        <span class="font-medium text-cyan-600">
-                                            {{ skill.proficiency }}%
-                                        </span>
-                                    </div>
-                                    <div class="h-2.5 w-full rounded-full bg-gray-200">
-                                        <div
-                                            class="h-2.5 rounded-full bg-gradient-to-r from-cyan-500 to-yellow-500 transition-all duration-500"
-                                            :style="{ width: `${skill.proficiency}%` }"
-                                        ></div>
-                                    </div>
-                                </div>
-                            </div>
+                            <p class="text-xl font-bold leading-relaxed text-gray-800">
+                                {{ categorySkills.map((s: Skill) => s.name).join(', ') }}
+                            </p>
                         </div>
                     </div>
                 </div>
 
                 <!-- Simple list if no categories or no skills -->
-                <div v-else-if="skills && skills.length > 0" class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-                    <div
-                        v-for="skill in skills"
-                        :key="skill.id"
-                        class="rounded-xl border border-cyan-100 bg-white p-6 shadow-md"
-                    >
-                        <div class="mb-2 flex justify-between">
-                            <span class="font-medium">{{ skill.name }}</span>
-                            <span class="font-medium text-cyan-600">
-                                {{ skill.proficiency }}%
-                            </span>
-                        </div>
-                        <div class="h-2.5 w-full rounded-full bg-gray-200">
-                            <div
-                                class="h-2.5 rounded-full bg-gradient-to-r from-cyan-500 to-yellow-500"
-                                :style="{ width: `${skill.proficiency}%` }"
-                            ></div>
-                        </div>
-                    </div>
+                <div v-else-if="skills && skills.length > 0" class="overflow-hidden rounded-2xl border border-cyan-100 bg-white shadow-md p-8">
+                    <p class="text-xl font-bold leading-relaxed text-gray-800">
+                        {{ skills.map((s: Skill) => s.name).join(', ') }}
+                    </p>
                 </div>
             </div>
         </section>
