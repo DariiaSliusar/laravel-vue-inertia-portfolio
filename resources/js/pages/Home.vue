@@ -8,7 +8,6 @@ import {
     ChevronDown,
     Phone,
     MapPin,
-    Star,
     ArrowRight,
 } from 'lucide-vue-next';
 import { Head } from '@inertiajs/vue3';
@@ -30,6 +29,7 @@ interface Service {
     id: number;
     title: string;
     description: string;
+    icon?: string;
 }
 
 interface Skill {
@@ -53,22 +53,22 @@ interface Experience {
     period: string;
 }
 
-interface Project {
-    id: number;
-    title: string;
-    description: string;
-    image?: string;
-    link: string;
-}
+// interface Project {
+//     id: number;
+//     title: string;
+//     description: string;
+//     image?: string;
+//     link: string;
+// }
 
-interface Testimonial {
-    id: number;
-    client_name: string;
-    client_position: string;
-    client_image?: string;
-    content: string;
-    rating: number;
-}
+// interface Testimonial {
+//     id: number;
+//     client_name: string;
+//     client_position: string;
+//     client_image?: string;
+//     content: string;
+//     rating: number;
+// }
 
 interface Props {
     about?: About;
@@ -76,8 +76,8 @@ interface Props {
     skills?: Skill[];
     educations?: Education[];
     experiences?: Experience[];
-    projects?: Project[];
-    testimonials?: Testimonial[];
+    // projects?: Project[];
+    // testimonials?: Testimonial[];
 }
 
 const props = defineProps<Props>();
@@ -101,17 +101,6 @@ const skillsByCategory = computed<Record<string, Skill[]>>(() => {
 
 const activeService = ref<Service | null>(null);
 const activeTab = ref<'education' | 'experience'>('education');
-
-const getIconEmoji = (title: string): string => {
-    if (title.toLowerCase().includes('web')) return '🌐';
-    if (
-        title.toLowerCase().includes('ui') ||
-        title.toLowerCase().includes('design')
-    )
-        return '🎨';
-    if (title.toLowerCase().includes('api')) return '🔌';
-    return '💡';
-};
 
 const getCategoryIcon = (category: string): string => {
     const lower = category.toLowerCase();
@@ -149,7 +138,6 @@ const getCategoryIcon = (category: string): string => {
                             'About',
                             'Skills',
                             'Services',
-                            'Portfolio',
                             'Contact',
                         ]"
                         :key="item"
@@ -297,76 +285,108 @@ const getCategoryIcon = (category: string): string => {
                             {{ about?.description }}
                         </p>
 
-<!--                        <div class="mt-6 grid grid-cols-3 gap-4">-->
-<!--                            <div-->
-<!--                                class="rounded-xl border border-cyan-100 bg-cyan-50 p-4 text-center"-->
-<!--                            >-->
-<!--                                <Phone-->
-<!--                                    class="mx-auto mb-2 h-6 w-6 text-cyan-600"-->
-<!--                                />-->
-<!--                                <p class="text-sm font-medium">Call Me</p>-->
-<!--                                <p class="mt-1 text-sm text-cyan-700">-->
-<!--                                    {{ about?.phone }}-->
-<!--                                </p>-->
-<!--                            </div>-->
-<!--                            <div-->
-<!--                                class="rounded-xl border border-yellow-100 bg-yellow-50 p-4 text-center"-->
-<!--                            >-->
-<!--                                <Mail-->
-<!--                                    class="mx-auto mb-2 h-6 w-6 text-yellow-600"-->
-<!--                                />-->
-<!--                                <p class="text-sm font-medium">Email</p>-->
-<!--                                <p class="mt-1 text-xs text-yellow-700 break-words">-->
-<!--                                    {{ about?.email }}-->
-<!--                                </p>-->
-<!--                            </div>-->
-<!--                            <div-->
-<!--                                class="rounded-xl border border-cyan-100 bg-cyan-50 p-4 text-center"-->
-<!--                            >-->
-<!--                                <MapPin-->
-<!--                                    class="mx-auto mb-2 h-6 w-6 text-cyan-600"-->
-<!--                                />-->
-<!--                                <p class="text-sm font-medium">Location</p>-->
-<!--                                <p class="mt-1 text-sm text-cyan-700">-->
-<!--                                    {{ about?.address }}-->
-<!--                                </p>-->
-<!--                            </div>-->
-<!--                        </div>-->
+                        <!--                        <div class="mt-6 grid grid-cols-3 gap-4">-->
+                        <!--                            <div-->
+                        <!--                                class="rounded-xl border border-cyan-100 bg-cyan-50 p-4 text-center"-->
+                        <!--                            >-->
+                        <!--                                <Phone-->
+                        <!--                                    class="mx-auto mb-2 h-6 w-6 text-cyan-600"-->
+                        <!--                                />-->
+                        <!--                                <p class="text-sm font-medium">Call Me</p>-->
+                        <!--                                <p class="mt-1 text-sm text-cyan-700">-->
+                        <!--                                    {{ about?.phone }}-->
+                        <!--                                </p>-->
+                        <!--                            </div>-->
+                        <!--                            <div-->
+                        <!--                                class="rounded-xl border border-yellow-100 bg-yellow-50 p-4 text-center"-->
+                        <!--                            >-->
+                        <!--                                <Mail-->
+                        <!--                                    class="mx-auto mb-2 h-6 w-6 text-yellow-600"-->
+                        <!--                                />-->
+                        <!--                                <p class="text-sm font-medium">Email</p>-->
+                        <!--                                <p class="mt-1 text-xs text-yellow-700 break-words">-->
+                        <!--                                    {{ about?.email }}-->
+                        <!--                                </p>-->
+                        <!--                            </div>-->
+                        <!--                            <div-->
+                        <!--                                class="rounded-xl border border-cyan-100 bg-cyan-50 p-4 text-center"-->
+                        <!--                            >-->
+                        <!--                                <MapPin-->
+                        <!--                                    class="mx-auto mb-2 h-6 w-6 text-cyan-600"-->
+                        <!--                                />-->
+                        <!--                                <p class="text-sm font-medium">Location</p>-->
+                        <!--                                <p class="mt-1 text-sm text-cyan-700">-->
+                        <!--                                    {{ about?.address }}-->
+                        <!--                                </p>-->
+                        <!--                            </div>-->
+                        <!--                        </div>-->
 
-<!--                        <a-->
-<!--                            v-if="about?.cv"-->
-<!--                            :href="`/storage/${about.cv}`"-->
-<!--                            download-->
-<!--                            class="mt-4 inline-flex items-center rounded-lg bg-gradient-to-r from-cyan-600 to-yellow-500 px-6 py-3 font-medium text-white shadow-md transition-shadow hover:shadow-lg"-->
-<!--                        >-->
-<!--                            Download CV <Download class="ml-2 h-4 w-4" />-->
-<!--                        </a>-->
+                        <!--                        <a-->
+                        <!--                            v-if="about?.cv"-->
+                        <!--                            :href="`/storage/${about.cv}`"-->
+                        <!--                            download-->
+                        <!--                            class="mt-4 inline-flex items-center rounded-lg bg-gradient-to-r from-cyan-600 to-yellow-500 px-6 py-3 font-medium text-white shadow-md transition-shadow hover:shadow-lg"-->
+                        <!--                        >-->
+                        <!--                            Download CV <Download class="ml-2 h-4 w-4" />-->
+                        <!--                        </a>-->
 
-                        <div class="mt-6 grid grid-cols-2 gap-0 overflow-hidden rounded-xl border-2 border-cyan-200 shadow-md">
-                            <div class="border-r border-b border-cyan-200 bg-gradient-to-br from-cyan-50 to-cyan-100 p-4 text-center">
-                                <Phone class="mx-auto mb-2 h-6 w-6 text-cyan-600" />
-                                <p class="text-xs font-medium text-gray-700">Call Me</p>
-                                <p class="mt-1 text-sm font-semibold text-cyan-700">
+                        <div
+                            class="mt-6 grid grid-cols-2 gap-0 overflow-hidden rounded-xl border-2 border-cyan-200 shadow-md"
+                        >
+                            <div
+                                class="border-r border-b border-cyan-200 bg-gradient-to-br from-cyan-50 to-cyan-100 p-4 text-center"
+                            >
+                                <Phone
+                                    class="mx-auto mb-2 h-6 w-6 text-cyan-600"
+                                />
+                                <p class="text-xs font-medium text-gray-700">
+                                    Call Me
+                                </p>
+                                <p
+                                    class="mt-1 text-sm font-semibold text-cyan-700"
+                                >
                                     {{ about?.phone }}
                                 </p>
                             </div>
-                            <div class="border-b border-yellow-200 bg-gradient-to-br from-yellow-50 to-yellow-100 p-4 text-center">
-                                <Mail class="mx-auto mb-2 h-6 w-6 text-yellow-600" />
-                                <p class="text-xs font-medium text-gray-700">Email</p>
-                                <p class="mt-1 text-xs font-semibold text-yellow-700 break-words">
+                            <div
+                                class="border-b border-yellow-200 bg-gradient-to-br from-yellow-50 to-yellow-100 p-4 text-center"
+                            >
+                                <Mail
+                                    class="mx-auto mb-2 h-6 w-6 text-yellow-600"
+                                />
+                                <p class="text-xs font-medium text-gray-700">
+                                    Email
+                                </p>
+                                <p
+                                    class="mt-1 text-xs font-semibold break-words text-yellow-700"
+                                >
                                     {{ about?.email }}
                                 </p>
                             </div>
-                            <div class="border-r bg-gradient-to-br from-yellow-50 to-yellow-100 p-4 text-center">
-                                <MapPin class="mx-auto mb-2 h-6 w-6 text-yellow-600" />
-                                <p class="text-xs font-medium text-gray-700">Location</p>
-                                <p class="mt-1 text-sm font-semibold text-yellow-700">
+                            <div
+                                class="border-r bg-gradient-to-br from-yellow-50 to-yellow-100 p-4 text-center"
+                            >
+                                <MapPin
+                                    class="mx-auto mb-2 h-6 w-6 text-yellow-600"
+                                />
+                                <p class="text-xs font-medium text-gray-700">
+                                    Location
+                                </p>
+                                <p
+                                    class="mt-1 text-sm font-semibold text-yellow-700"
+                                >
                                     {{ about?.address }}
                                 </p>
                             </div>
-                            <div class="bg-gradient-to-br from-cyan-50 to-cyan-100 p-4 text-center">
-                                <Download class="mx-auto mb-2 h-6 w-6 text-cyan-600" />
-                                <p class="text-xs font-medium text-gray-700">Resume</p>
+                            <div
+                                class="bg-gradient-to-br from-cyan-50 to-cyan-100 p-4 text-center"
+                            >
+                                <Download
+                                    class="mx-auto mb-2 h-6 w-6 text-cyan-600"
+                                />
+                                <p class="text-xs font-medium text-gray-700">
+                                    Resume
+                                </p>
                                 <a
                                     v-if="about?.cv"
                                     :href="`/storage/${about.cv}`"
@@ -375,7 +395,10 @@ const getCategoryIcon = (category: string): string => {
                                 >
                                     Download
                                 </a>
-                                <span v-else class="mt-1 inline-block text-sm font-semibold text-gray-400">
+                                <span
+                                    v-else
+                                    class="mt-1 inline-block text-sm font-semibold text-gray-400"
+                                >
                                     N/A
                                 </span>
                             </div>
@@ -406,7 +429,10 @@ const getCategoryIcon = (category: string): string => {
                 </div>
 
                 <!-- Skills grouped by category as simple comma-separated list -->
-                <div v-if="Object.keys(skillsByCategory).length > 0" class="space-y-8">
+                <div
+                    v-if="Object.keys(skillsByCategory).length > 0"
+                    class="space-y-8"
+                >
                     <div
                         v-for="(categorySkills, category) in skillsByCategory"
                         :key="category"
@@ -430,16 +456,25 @@ const getCategoryIcon = (category: string): string => {
                         </div>
 
                         <div class="p-6">
-                            <p class="text-xl font-bold leading-relaxed text-gray-800">
-                                {{ categorySkills.map((s: Skill) => s.name).join(', ') }}
+                            <p
+                                class="text-xl leading-relaxed font-bold text-gray-800"
+                            >
+                                {{
+                                    categorySkills
+                                        .map((s: Skill) => s.name)
+                                        .join(', ')
+                                }}
                             </p>
                         </div>
                     </div>
                 </div>
 
                 <!-- Simple list if no categories or no skills -->
-                <div v-else-if="skills && skills.length > 0" class="overflow-hidden rounded-2xl border border-cyan-100 bg-white shadow-md p-8">
-                    <p class="text-xl font-bold leading-relaxed text-gray-800">
+                <div
+                    v-else-if="skills && skills.length > 0"
+                    class="overflow-hidden rounded-2xl border border-cyan-100 bg-white p-8 shadow-md"
+                >
+                    <p class="text-xl leading-relaxed font-bold text-gray-800">
                         {{ skills.map((s: Skill) => s.name).join(', ') }}
                     </p>
                 </div>
@@ -609,9 +644,11 @@ const getCategoryIcon = (category: string): string => {
                         <div
                             class="flex h-48 items-center justify-center bg-gradient-to-br from-cyan-100 to-yellow-100"
                         >
-                            <div class="text-6xl text-cyan-500">
-                                {{ getIconEmoji(service.title) }}
-                            </div>
+                            <i
+                                v-if="service.icon"
+                                :class="service.icon"
+                                class="text-6xl text-cyan-500"
+                            ></i>
                         </div>
 
                         <div class="p-6">
@@ -635,7 +672,7 @@ const getCategoryIcon = (category: string): string => {
         </section>
 
         <!-- Portfolio Section -->
-        <section id="portfolio" class="py-20">
+        <!-- <section id="portfolio" class="py-20">
             <div class="mx-auto max-w-7xl px-4">
                 <div class="mb-16 text-center">
                     <h2
@@ -688,10 +725,10 @@ const getCategoryIcon = (category: string): string => {
                     </div>
                 </div>
             </div>
-        </section>
+        </section> -->
 
         <!-- Testimonial Section -->
-        <section class="bg-gradient-to-br from-cyan-50 to-white py-20">
+        <!-- <section class="bg-gradient-to-br from-cyan-50 to-white py-20">
             <div class="mx-auto max-w-6xl px-4">
                 <div class="mb-16 text-center">
                     <h2
@@ -750,7 +787,7 @@ const getCategoryIcon = (category: string): string => {
                     </div>
                 </div>
             </div>
-        </section>
+        </section> -->
 
         <!-- Contact Section -->
         <section
@@ -924,7 +961,7 @@ const getCategoryIcon = (category: string): string => {
                         <p class="mb-4">{{ about?.summary }}</p>
                         <div class="flex space-x-4">
                             <a
-                                href="https://www.linkedin.com"
+                                href="https://www.linkedin.com/in/dariia-sliusar-640b6b329/"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 class="flex h-10 w-10 items-center justify-center rounded-full bg-gray-800 text-cyan-400 transition-colors hover:bg-gradient-to-r hover:from-cyan-600 hover:to-yellow-500"
@@ -932,20 +969,12 @@ const getCategoryIcon = (category: string): string => {
                                 <Linkedin :size="20" />
                             </a>
                             <a
-                                href="https://github.com"
+                                href="https://github.com/DariiaSliusar"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 class="flex h-10 w-10 items-center justify-center rounded-full bg-gray-800 text-cyan-400 transition-colors hover:bg-gradient-to-r hover:from-cyan-600 hover:to-yellow-500"
                             >
                                 <Github :size="20" />
-                            </a>
-                            <a
-                                href="https://dribbble.com"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                class="flex h-10 w-10 items-center justify-center rounded-full bg-gray-800 text-cyan-400 transition-colors hover:bg-gradient-to-r hover:from-cyan-600 hover:to-yellow-500"
-                            >
-                                <span class="text-lg">🏀</span>
                             </a>
                         </div>
                     </div>
@@ -961,7 +990,6 @@ const getCategoryIcon = (category: string): string => {
                                     'About',
                                     'Skills',
                                     'Services',
-                                    'Portfolio',
                                     'Contact',
                                 ]"
                                 :key="item"
@@ -1043,7 +1071,10 @@ const getCategoryIcon = (category: string): string => {
                 </div>
 
                 <div class="mb-6 text-center text-6xl text-cyan-500">
-                    {{ activeService ? getIconEmoji(activeService.title) : '' }}
+                    <i
+                        v-if="activeService?.icon"
+                        :class="activeService.icon"
+                    ></i>
                 </div>
 
                 <p class="text-gray-600">

@@ -127,9 +127,9 @@ const getServiceSkills = (serviceId: number) => {
                         <li class="nav-item">
                             <a href="#services" class="nav_link">Services</a>
                         </li>
-                        <li class="nav-item">
+                        <!-- <li class="nav-item">
                             <a href="#portfolio" class="nav_link">Portfolio</a>
-                        </li>
+                        </li> -->
                         <li class="nav-item">
                             <a href="#contact" class="nav_link">Contact Me</a>
                         </li>
@@ -535,9 +535,9 @@ const getServiceSkills = (serviceId: number) => {
                     <li>
                         <a href="#services" class="footer_link">Services</a>
                     </li>
-                    <li>
+                    <!-- <li>
                         <a href="#portfolio" class="footer_link">Portfolio</a>
-                    </li>
+                    </li> -->
                     <li>
                         <a href="#contact" class="footer_link">Contact Me</a>
                     </li>
