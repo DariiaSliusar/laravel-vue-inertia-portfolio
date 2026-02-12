@@ -8,7 +8,6 @@ import {
     ChevronDown,
     Phone,
     MapPin,
-    ArrowRight,
 } from 'lucide-vue-next';
 import { Head } from '@inertiajs/vue3';
 
@@ -99,7 +98,6 @@ const skillsByCategory = computed<Record<string, Skill[]>>(() => {
     );
 });
 
-const activeService = ref<Service | null>(null);
 const activeTab = ref<'education' | 'experience'>('experience');
 
 const getCategoryIcon = (category: string): string => {
@@ -652,13 +650,6 @@ const sortedExperiences = computed(() => {
                             <p class="mb-4 text-gray-600">
                                 {{ service.description }}
                             </p>
-
-                            <button
-                                @click="activeService = service"
-                                class="inline-flex items-center font-medium text-cyan-600 transition-colors hover:text-cyan-800"
-                            >
-                                View More <ArrowRight class="ml-2 h-4 w-4" />
-                            </button>
                         </div>
                     </div>
                 </div>
@@ -1042,39 +1033,5 @@ const sortedExperiences = computed(() => {
                 </div>
             </div>
         </footer>
-
-        <!-- Service Modal -->
-        <div
-            v-if="activeService"
-            @click.self="activeService = null"
-            class="services_modal fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
-        >
-            <div
-                class="max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-2xl bg-white p-8"
-            >
-                <div class="mb-6 flex items-start justify-between">
-                    <h3 class="text-2xl font-bold text-gray-800">
-                        {{ activeService?.title }}
-                    </h3>
-                    <button
-                        @click="activeService = null"
-                        class="text-gray-500 hover:text-gray-700"
-                    >
-                        ✕
-                    </button>
-                </div>
-
-                <div class="mb-6 text-center text-6xl text-cyan-500">
-                    <i
-                        v-if="activeService?.icon"
-                        :class="activeService.icon"
-                    ></i>
-                </div>
-
-                <p class="text-gray-600">
-                    {{ activeService?.description }}
-                </p>
-            </div>
-        </div>
     </div>
 </template>
